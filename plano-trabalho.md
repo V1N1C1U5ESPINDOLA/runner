@@ -25,11 +25,11 @@
 ## Sprint 0 — Estruturação Base (07/04 – 14/04)
 **Objetivo:** Consolidar o protótipo já desenvolvido anteriormente, documentar o que foi feito e alinhar a equipe sobre o estado atual do código antes de iniciar o desenvolvimento incremental. Valor entregue: Repositório organizado com o protótipo registrado, decisões de arquitetura documentadas e backlog priorizado para a Sprint 1.
 **Tarefa conjunta**
-- [ ] Código do protótipo commitado e organizado no repositório
-- [ ] README inicial descrevendo o estado atual do projeto
-- [ ] Decisões de arquitetura registradas (estrutura de pacotes Go, estrutura Spring Boot)
-- [ ] Backlog revisado e critérios de aceitação confirmados para Sprint 1
-- [ ] Plano de trabalho configurado e organizado
+- [x] Código do protótipo commitado e organizado no repositório
+- [x] README inicial descrevendo o estado atual do projeto
+- [x] Decisões de arquitetura registradas (estrutura de pacotes Go, estrutura Spring Boot)
+- [x] Backlog revisado e critérios de aceitação confirmados para Sprint 1
+- [x] Plano de trabalho configurado e organizado
 
 
 ## Sprint 1 — Fundação dos projetos (21/04 – 28/04)
@@ -84,17 +84,27 @@
 
 **Campos obrigatórios no `Signature` retornado (conforme spec SES-GO):**
 - `resourceType`: `"Signature"`
-- `type`: array com `system: "urn:iso-astm:E1762-95:2013"` e `code` (ex.: `1.2.840.10065.1.12.1.1`)
-- `when`: timestamp ISO-8601 do momento da assinatura
-- `who`: objeto com `identifier.system` (`urn:brasil:cpf` ou `urn:brasil:cnpj`) e `identifier.value` (CPF/CNPJ simulado)
+- `type`: array com:
+  - `system`: `"urn:iso-astm:E1762-95:2013"`
+  - `code`: `"1.2.840.10065.1.12.1.5"` _(valor fixado pelo perfil — não é escolha livre)_
+- `when`: timestamp ISO-8601 do momento da assinatura  
+  - Deve ser o mesmo valor que `iat` no protected header do JWS  
+  - Ambos são gerados juntos no momento da execução
+- `who`: objeto contendo apenas:
+  - `identifier.system`: `"urn:brasil:cpf"` ou `"urn:brasil:cnpj"`
+  - `identifier.value`: CPF/CNPJ simulado  
+  _(os campos `reference`, `type` e `display` são proibidos pelo perfil)_
 - `sigFormat`: `"application/jose"`
 - `targetFormat`: `"application/octet-stream"`
 - `data`: string base64 contendo um JWS JSON Serialization simulado (estrutura com `payload`, `signatures[0].protected`, `signatures[0].header`, `signatures[0].signature`)
 
 **Critérios de aceitação:**
-- [ ] `gerarMockSignature()` retorna todos os campos obrigatórios acima
-- [ ] O campo `data` contém um JWS JSON Serialization em base64 válido (estrutura correta, valores simulados)
-- [ ] Testes unitários verificam a presença e formato de todos os campos obrigatórios
+- [x] `gerarMockSignature()` retorna todos os campos obrigatórios acima
+- [x] `type.code` é `"1.2.840.10065.1.12.1.5"`
+- [x] `when` e `iat` do protected header contêm o mesmo instante
+- [x] `who` contém apenas `identifier` — sem `reference`, `type` ou `display`
+- [x] O campo `data` contém um JWS JSON Serialization em base64 válido (estrutura correta, valores simulados)
+- [x] Testes unitários verificam a presença e formato de todos os campos obrigatórios
 
 #### US-02.2 — Validação completa de parâmetros de criação de assinatura
 
@@ -105,13 +115,13 @@
 > **Contexto:** Validações de PIN e janela de tempo já existem. As abaixo completam a cobertura conforme a spec.
 
 **Critérios de aceitação:**
-- [ ] Arquivo Bundle existe e é um JSON válido
-- [ ] Arquivo Provenance existe, é um JSON válido e contém o campo `recorded`
-- [ ] `Provenance.recorded` está em formato ISO-8601 válido
-- [ ] Timestamp de `Provenance.recorded` está dentro da janela de ±5 minutos (já implementado — garantir cobertura de teste)
-- [ ] PIN contém apenas dígitos e tem entre 4 e 8 caracteres (já implementado — garantir cobertura de teste)
-- [ ] Mensagens de erro indicam qual parâmetro está inválido e o motivo
-- [ ] Testes unitários cobrem todos os cenários de validação (sucesso e falha)
+- [x] Arquivo Bundle existe, é um JSON válido e contém pelo menos uma entry
+- [x] Arquivo Provenance existe, é um JSON válido e contém o campo `recorded`
+- [x] `Provenance.recorded` está em formato ISO-8601 válido
+- [x] Timestamp de `Provenance.recorded` está dentro da janela de ±5 minutos (já implementado — garantir cobertura de teste)
+- [x] PIN contém apenas dígitos e tem entre 4 e 8 caracteres (já implementado — garantir cobertura de teste)
+- [x] Mensagens de erro indicam qual parâmetro está inválido e o motivo
+- [x] Testes unitários cobrem todos os cenários de validação (sucesso e falha)
 
 #### US-02.3 — Simulação e validação de parâmetros de validação de assinatura
 
@@ -122,12 +132,12 @@
 > **Contexto:** O método `validarAssinatura()` tem um TODO. A simulação pode ser simples: se os arquivos existem e o JSON do Signature tem a estrutura mínima esperada, retorna válido.
 
 **Critérios de aceitação:**
-- [ ] Arquivo Signature existe e é um JSON com `resourceType: "Signature"` e campo `data` presente
-- [ ] Arquivo Bundle original existe e é um JSON válido
-- [ ] Resultado simulado retorna `true` (válido) para entradas bem formadas
-- [ ] Resultado retorna `false` (inválido) quando o Signature está malformado ou o Bundle ausente
-- [ ] Mensagens de erro claras para parâmetros inválidos
-- [ ] Testes unitários cobrem cenários de sucesso e falha
+- [x] Arquivo Signature existe e é um JSON com `resourceType: "Signature"` e campo `data` presente
+- [x] Arquivo Bundle original existe e é um JSON válido
+- [x] Resultado simulado retorna resposta bem formatada para entradas bem formadas
+- [x] Resultado retorna resposta adequada bem formatada quando o Signature está malformado ou o Bundle ausente
+- [x] Mensagens de erro claras para parâmetros inválidos
+- [x] Testes unitários cobrem cenários de sucesso e falha
 
 ---
 
@@ -320,6 +330,7 @@ Registrar isso como comentário no topo dos arquivos de integração ou em um `C
 - [ ] Testes de integração utilizando **SoftHSM2** como simulador de token/smart card
 - [ ] Comportamento adequado quando dispositivo não está disponível (mensagem de erro clara, não crash)
 - [ ] Documentação do setup necessário para uso com SoftHSM2 (instalação, configuração do slot)
+- [ ] O CPF/CNPJ extraído do certificado no SoftHSM2 é usado no campo who.identifier.value do Signature retornado, substituindo o valor fixo simulado da Sprint 1.
 
 ---
 
