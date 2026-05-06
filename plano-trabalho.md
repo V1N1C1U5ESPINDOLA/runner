@@ -197,9 +197,9 @@ Registrar isso como comentário no topo dos arquivos de integração ou em um `C
 #### Revisão e testes de integração do assinador.jar
 
 **Critérios de aceitação:**
-- [ ] Fluxo completo `assinar` funciona corretamente via `java -jar` com os argumentos definidos no contrato
-- [ ] Fluxo completo `validar` funciona corretamente via `java -jar`
-- [ ] Testes de integração cobrindo o fluxo completo (assinar e validar) via invocação de linha de comando
+- [x] Fluxo completo `assinar` funciona corretamente via `java -jar` com os argumentos definidos no contrato
+- [x] Fluxo completo `validar` funciona corretamente via `java -jar`
+- [x] Testes de integração cobrindo o fluxo completo (assinar e validar) via invocação de linha de comando
 
 ---
 
