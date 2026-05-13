@@ -1,5 +1,7 @@
 package br.org.ao.depress.assinador.steps;
 
+import br.org.ao.depress.assinador.core.model.dto.OperationOutcomeDTO;
+import br.org.ao.depress.assinador.core.model.dto.SignatureDTO;
 import br.org.ao.depress.assinador.core.service.SignatureService;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Então;
@@ -33,7 +35,7 @@ public class AssinarSteps {
     private JsonNode signatureNode;
     private JsonNode jwsNode;
     private File signatureFile;
-    private String resultadoValidacao;
+    private OperationOutcomeDTO resultadoValidacao;
 
     @Dado("que existe um arquivo Bundle válido")
     public void existeArquivoBundleValido() throws Exception {
@@ -186,25 +188,20 @@ public class AssinarSteps {
     @Dado("que existe um arquivo Signature válido")
     public void existeArquivoSignatureValido() throws Exception {
         existeArquivoProvenanceValido();
-        String mockSignatureJson = signatureService.executarAssinatura(bundleFile, provenanceFile, "1234");
-
+        SignatureDTO signature = signatureService.executarAssinatura(bundleFile, provenanceFile, "1234");
         signatureFile = File.createTempFile("signature_valid", ".json");
         signatureFile.deleteOnExit();
         try (FileWriter fw = new FileWriter(signatureFile)) {
-            fw.write(mockSignatureJson);
+            fw.write(objectMapper.writeValueAsString(signature));
         }
     }
 
     @Quando("o usuário executa o comando assinar com PIN {string}")
     public void usuarioExecutaAssinar(String pin) {
         try {
-            if ("null".equalsIgnoreCase(pin)) {
-                pin = null;
-            }
-
-            String resultado = signatureService.executarAssinatura(bundleFile, provenanceFile, pin);
-            signatureNode = objectMapper.readTree(resultado);
-
+            if ("null".equalsIgnoreCase(pin)) pin = null;
+            SignatureDTO signature = signatureService.executarAssinatura(bundleFile, provenanceFile, pin);
+            signatureNode = objectMapper.readTree(objectMapper.writeValueAsString(signature));
             String dataB64 = signatureNode.get("data").asString();
             byte[] jwsBytes = Base64.getDecoder().decode(dataB64);
             jwsNode = objectMapper.readTree(new String(jwsBytes, StandardCharsets.UTF_8));
@@ -301,7 +298,7 @@ public class AssinarSteps {
 
     @Então("o resultado da validação deve conter {string}")
     public void resultadoDaValidacaoDeveConter(String textoEsperado) {
-        assertThat(resultadoValidacao).contains(textoEsperado);
+        assertThat(objectMapper.writeValueAsString(resultadoValidacao)).contains(textoEsperado);
     }
 
     @Dado("que o arquivo Bundle não existe")
