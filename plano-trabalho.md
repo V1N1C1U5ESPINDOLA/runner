@@ -237,10 +237,10 @@ Registrar isso como comentário no topo dos arquivos de integração ou em um `C
 **para que** o CLI possa invocá-lo via requisições HTTP no modo servidor (menor latência).
 
 **Critérios de aceitação:**
-- [ ] `SignatureController` implementado com `POST /sign` e `POST /validate`
-- [ ] Endpoints reutilizam a mesma lógica de validação e simulação já existente
-- [ ] Respostas HTTP seguem estrutura consistente para sucesso (200 + JSON do Signature) e erro (4xx + mensagem clara)
-- [ ] Testes de integração validam os endpoints HTTP
+- [x] `SignatureController` implementado com `POST /sign` e `POST /validate`
+- [x] Endpoints reutilizam a mesma lógica de validação e simulação já existente
+- [x] Respostas HTTP seguem estrutura consistente para sucesso (200 + JSON do Signature) e erro (4xx + mensagem clara)
+- [x] Testes de integração validam os endpoints HTTP
 
 ---
 
@@ -362,11 +362,13 @@ Registrar isso como comentário no topo dos arquivos de integração ou em um `C
 **para que** eu sempre utilize a versão atualizada sem download manual.
 
 **Critérios de aceitação:**
-- [ ] CLI consulta GitHub Releases para identificar a versão mais recente do simulador.jar
+- [ ] CLI busca `release.json` via URL fixa no repositório (`https://raw.githubusercontent.com/{owner}/{repo}/main/release.json`) para identificar a versão mais recente do simulador.jar
+- [ ] CLI compara a versão do `release.json` com a versão instalada localmente antes de baixar
 - [ ] Download automático quando simulador.jar não está disponível localmente
 - [ ] Versão já baixada não é baixada novamente (cache local em `~/.hubsaude/`)
 - [ ] Opção `--source <url>` permite indicar URL alternativa para download
 - [ ] Verificação de integridade do download (checksum SHA-256)
+- [ ] CLI baixa o JRE automaticamente via Eclipse Temurin (Adoptium) caso não esteja disponível em `~/.hubsaude/`, usando as URLs por plataforma definidas no `release.json`
 
 #### US-03.1 — Iniciar o Simulador via CLI
 

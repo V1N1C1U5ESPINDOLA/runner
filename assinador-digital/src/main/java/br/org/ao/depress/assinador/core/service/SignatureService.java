@@ -34,9 +34,7 @@ public class SignatureService {
             "https://fhir.saude.go.gov.br/r4/seguranca/ImplementationGuide/br.go.ses.seguranca|0.1.2";
     private static final String RESOURCE_TYPE_KEY = "resourceType";
 
-    public String executarAssinatura(File bundleFile, File provenanceFile, String pin)
-            throws IOException, NoSuchAlgorithmException {
-
+    public SignatureDTO executarAssinatura(File bundleFile, File provenanceFile, String pin) throws IOException, NoSuchAlgorithmException {
         validarPin(pin);
         validarBundle(bundleFile);
         validarProvenance(provenanceFile);
@@ -44,11 +42,10 @@ public class SignatureService {
         return gerarMockSignature(bundleFile);
     }
 
-    public String validarAssinatura(File signatureFile, File bundleFile) {
+    public OperationOutcomeDTO validarAssinatura(File signatureFile, File bundleFile) {
         validarArquivoSignature(signatureFile);
         validarArquivoBundle(bundleFile);
-        return objectMapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(OperationOutcomeFactory.success());
+        return OperationOutcomeFactory.success();
     }
 
     private void validarPin(String pin) {
@@ -214,7 +211,7 @@ public class SignatureService {
         }
     }
 
-    String gerarMockSignature(File bundleFile) throws IOException, NoSuchAlgorithmException {
+    private SignatureDTO gerarMockSignature(File bundleFile) throws IOException, NoSuchAlgorithmException {
         Instant agora = Instant.now();
         long iat = agora.getEpochSecond();
         String when = OffsetDateTime.ofInstant(agora, ZoneOffset.UTC).toString();
@@ -236,7 +233,7 @@ public class SignatureService {
         String dataB64 = Base64.getEncoder()
                 .encodeToString(objectMapper.writeValueAsBytes(jws));
 
-        SignatureDTO signature = new SignatureDTO(
+        return new SignatureDTO(
                 "Signature",
                 List.of(new CodingDTO("urn:iso-astm:E1762-95:2013", "1.2.840.10065.1.12.1.5")),
                 when,
@@ -245,8 +242,6 @@ public class SignatureService {
                 "application/octet-stream",
                 dataB64
         );
-
-        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(signature);
     }
 
     private String base64url(byte[] input) {

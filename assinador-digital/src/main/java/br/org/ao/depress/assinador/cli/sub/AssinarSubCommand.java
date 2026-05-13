@@ -1,12 +1,14 @@
 package br.org.ao.depress.assinador.cli.sub;
 
 import br.org.ao.depress.assinador.core.exception.AssinadorException;
+import br.org.ao.depress.assinador.core.model.dto.SignatureDTO;
 import br.org.ao.depress.assinador.core.model.factory.OperationOutcomeFactory;
 import br.org.ao.depress.assinador.core.service.SignatureService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import picocli.CommandLine.*;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.File;
@@ -33,17 +35,15 @@ public class AssinarSubCommand implements Callable<Integer> {
     @Override
     public Integer call() {
         try {
-            String resultado = signatureService.executarAssinatura(bundleFile, provenanceFile, pin);
-            log.info("--- ASSINATURA GERADA COM SUCESSO ---");
-            System.out.println(resultado);
+            SignatureDTO resultado = signatureService.executarAssinatura(bundleFile, provenanceFile, pin);
+            System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(resultado));
             return 0;
         } catch (AssinadorException e) {
             try {
-                String outcome = objectMapper.writerWithDefaultPrettyPrinter()
-                        .writeValueAsString(OperationOutcomeFactory.fromException(e));
-                System.err.println("ERRO NA OPERAÇÃO:\n" + outcome);
+                System.err.println(objectMapper.writerWithDefaultPrettyPrinter()
+                        .writeValueAsString(OperationOutcomeFactory.fromException(e)));
             } catch (Exception ex) {
-                System.err.println("ERRO NA OPERAÇÃO: " + e.getDiagnostics());
+                System.err.println("ERRO: " + e.getDiagnostics());
             }
             return 1;
         } catch (Exception e) {

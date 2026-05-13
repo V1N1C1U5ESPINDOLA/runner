@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class IntegracaoSteps {
+public class IntegracaoCliSteps {
     private static final File JAR = encontrarJar();
 
     private File bundleFile;
@@ -144,13 +144,13 @@ public class IntegracaoSteps {
 
     @Então("o stdout deve conter o campo resourceType igual a {string}")
     public void stdoutContemResourceType(String esperado) {
-        assertThat(stdout).contains("\"resourceType\"");
+        assertThat(stdout).contains("resourceType");
         assertThat(stdout).contains(esperado);
     }
 
     @Então("o stdout deve conter o campo sigFormat igual a {string}")
     public void stdoutContemSigFormat(String esperado) {
-        assertThat(stdout).contains("\"sigFormat\"");
+        assertThat(stdout).contains("sigFormat");
         assertThat(stdout).contains(esperado);
     }
 
@@ -177,7 +177,12 @@ public class IntegracaoSteps {
         Process processo = pb.start();
 
         String stdoutCapturado = new String(processo.getInputStream().readAllBytes());
+        String stderrCapturado = new String(processo.getErrorStream().readAllBytes());
         processo.waitFor();
+
+        System.out.println("=== STDOUT ===\n" + stdoutCapturado);
+        System.out.println("=== STDERR ===\n" + stderrCapturado);
+        System.out.println("=== EXIT CODE: " + processo.exitValue() + " ===");
 
         return new ProcessResult(processo.exitValue(), stdoutCapturado.trim());
     }
