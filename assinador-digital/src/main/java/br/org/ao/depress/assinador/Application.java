@@ -1,7 +1,6 @@
 package br.org.ao.depress.assinador;
 
 import br.org.ao.depress.assinador.cli.AssinadorCommand;
-import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
@@ -27,16 +26,22 @@ public class Application implements CommandLineRunner, ExitCodeGenerator {
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(Application.class);
 
-        if (args.length > 0 && (args[0].equals("assinar") || args[0].equals("validar"))) {
+        boolean modoCliLocal = args.length > 0 && (args[0].equals("assinar") || args[0].equals("validar"));
+
+        if (modoCliLocal) {
+            app.setAdditionalProfiles("cli");
             app.setWebApplicationType(WebApplicationType.NONE);
+            System.exit(SpringApplication.exit(app.run(args)));
         }
 
-        System.exit(SpringApplication.exit(app.run(args)));
+        app.run(args);
     }
 
     @Override
-    public void run(String @NonNull ... args) {
-        exitCode = new CommandLine(assinadorCommand, factory).execute(args);
+    public void run(String... args) {
+        if (args.length > 0) {
+            exitCode = new CommandLine(assinadorCommand, factory).execute(args);
+        }
     }
 
     @Override
