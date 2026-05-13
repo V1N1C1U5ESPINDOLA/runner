@@ -1,6 +1,7 @@
 package br.org.ao.depress.assinador.cli.sub;
 
 import br.org.ao.depress.assinador.core.exception.AssinadorException;
+import br.org.ao.depress.assinador.core.model.dto.OperationOutcomeDTO;
 import br.org.ao.depress.assinador.core.model.factory.OperationOutcomeFactory;
 import br.org.ao.depress.assinador.core.service.SignatureService;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,8 @@ public class ValidarSubCommand implements Callable<Integer> {
     @Override
     public Integer call() {
         try {
-            String resultado = signatureService.validarAssinatura(signatureFile, bundleFile);
-            System.out.println(resultado);
+            OperationOutcomeDTO resultado = signatureService.validarAssinatura(signatureFile, bundleFile);
+            System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(resultado));
             return 0;
         } catch (AssinadorException e) {
             try {
