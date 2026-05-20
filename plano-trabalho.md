@@ -49,11 +49,11 @@
 **para que** o desenvolvimento possa progredir de forma organizada.
 
 **Critérios de aceitação:**
-- [ ] Projeto Go inicializado com `go mod init`
-- [ ] Cobra CLI instalado (`go install github.com/spf13/cobra-cli@latest`)
-- [ ] Estrutura de pacotes definida e documentada
-- [ ] Comando `assinatura version` exibe a versão atual do CLI
-- [ ] Aplicação compila e executa nas três plataformas (Windows, Linux, macOS)
+- [x] Projeto Go inicializado com `go mod init`
+- [x] Cobra CLI instalado (`go install github.com/spf13/cobra-cli@latest`)
+- [x] Estrutura de pacotes definida e documentada
+- [x] Comando `assinatura version` exibe a versão atual do CLI
+- [x] Aplicação compila e executa nas três plataformas (Windows, Linux, macOS)
 
 #### US-01.2 — Parsing de comandos e parâmetros no CLI
 
@@ -62,11 +62,11 @@
 **para que** eu possa solicitar operações de assinatura de forma intuitiva.
 
 **Critérios de aceitação:**
-- [ ] CLI aceita o comando `assinar` com os parâmetros: `--pin`, `--bundle`, `--provenance`
-- [ ] CLI aceita o comando `validar` com os parâmetros: `--signature`, `--bundle`
-- [ ] Mensagem de ajuda (`--help`) documenta os comandos e parâmetros disponíveis
-- [ ] Parâmetros ausentes ou inválidos geram mensagem de erro orientativa
-- [ ] Testes cobrem o parsing de comandos e parâmetros
+- [x] CLI aceita o comando `assinar` com os parâmetros: `--pin`, `--bundle`, `--provenance`
+- [x] CLI aceita o comando `validar` com os parâmetros: `--signature`, `--bundle`
+- [x] Mensagem de ajuda (`--help`) documenta os comandos e parâmetros disponíveis
+- [x] Parâmetros ausentes ou inválidos geram mensagem de erro orientativa
+- [x] Testes cobrem o parsing de comandos e parâmetros
 
 ---
 
