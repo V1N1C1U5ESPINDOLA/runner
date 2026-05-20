@@ -164,6 +164,11 @@ public class IntegracaoCliSteps {
         assertThat(stdout).contains(esperado);
     }
 
+    @Então("o stdout não deve conter {string}")
+    public void stdoutNaoDeveConter(String texto) {
+        assertThat(stdout).doesNotContain(texto);
+    }
+
     private ProcessResult executarProcesso(String... args) throws Exception {
         List<String> comando = new ArrayList<>();
         comando.add("java");
