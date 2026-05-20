@@ -5,6 +5,7 @@ import br.org.ao.depress.assinador.core.model.dto.*;
 import br.org.ao.depress.assinador.core.model.enums.SituacaoExcepcional;
 import br.org.ao.depress.assinador.core.model.factory.OperationOutcomeFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
@@ -24,9 +25,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SignatureService {
 
     private final ObjectMapper objectMapper;
+    private final Pkcs11Service pkcs11Service;
 
     private static final String MOCK_CPF = "00000000000";
     private static final String MOCK_CERT_B64 = "MIIB...simulado...==";
@@ -233,11 +236,16 @@ public class SignatureService {
         String dataB64 = Base64.getEncoder()
                 .encodeToString(objectMapper.writeValueAsBytes(jws));
 
+        String cpf = pkcs11Service.extrairCpf().orElseGet(() -> {
+            log.warn("PKCS#11 indisponível — usando CPF simulado no campo who.identifier.value");
+            return MOCK_CPF;
+        });
+
         return new SignatureDTO(
                 "Signature",
                 List.of(new CodingDTO("urn:iso-astm:E1762-95:2013", "1.2.840.10065.1.12.1.5")),
                 when,
-                new WhoDTO(new IdentifierDTO("urn:brasil:cpf", MOCK_CPF)),
+                new WhoDTO(new IdentifierDTO("urn:brasil:cpf", cpf)),
                 "application/jose",
                 "application/octet-stream",
                 dataB64

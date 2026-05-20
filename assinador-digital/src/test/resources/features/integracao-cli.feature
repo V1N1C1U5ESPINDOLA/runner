@@ -52,3 +52,13 @@ Funcionalidade: Integração ponta-a-ponta via linha de comando
     E que o Signature para integração não existe
     Quando o usuário executa o processo validar
     Então o processo deve encerrar com código 1
+
+  @pkcs11
+  Cenário: Assinatura gerada contém CPF do token no campo who
+    Dado que o SoftHSM2 está disponível
+    E que existe um arquivo Bundle válido para integração
+    E que existe um arquivo Provenance válido para integração
+    Quando o usuário executa o processo assinar com PIN "1234"
+    Então o processo deve encerrar com código 0
+    E o stdout deve conter o campo resourceType igual a "Signature"
+    E o stdout não deve conter "00000000000"

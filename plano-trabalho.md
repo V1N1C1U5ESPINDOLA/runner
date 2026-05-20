@@ -326,11 +326,11 @@ Registrar isso como comentário no topo dos arquivos de integração ou em um `C
 > **Biblioteca recomendada pelo professor:** SoftHSM2 como simulador de hardware criptográfico, acessado via `SunPKCS11` provider do Java.
 
 **Critérios de aceitação:**
-- [ ] Integração com PKCS#11 via `SunPKCS11` provider do Java
-- [ ] Testes de integração utilizando **SoftHSM2** como simulador de token/smart card
-- [ ] Comportamento adequado quando dispositivo não está disponível (mensagem de erro clara, não crash)
-- [ ] Documentação do setup necessário para uso com SoftHSM2 (instalação, configuração do slot)
-- [ ] O CPF/CNPJ extraído do certificado no SoftHSM2 é usado no campo who.identifier.value do Signature retornado, substituindo o valor fixo simulado da Sprint 1.
+- [x] Integração com PKCS#11 via `SunPKCS11` provider do Java
+- [x] Testes de integração utilizando **SoftHSM2** como simulador de token/smart card
+- [x] Comportamento adequado quando dispositivo não está disponível (mensagem de erro clara, não crash)
+- [x] Documentação do setup necessário para uso com SoftHSM2 (instalação, configuração do slot)
+- [x] O CPF/CNPJ extraído do certificado no SoftHSM2 é usado no campo who.identifier.value do Signature retornado, substituindo o valor fixo simulado da Sprint 1.
 
 ---
 

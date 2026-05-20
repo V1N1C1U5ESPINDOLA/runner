@@ -1,4 +1,4 @@
-package br.org.ao.depress.assinador.cli.controller;
+package br.org.ao.depress.assinador.core.controller;
 
 import br.org.ao.depress.assinador.core.model.dto.OperationOutcomeDTO;
 import br.org.ao.depress.assinador.core.model.dto.SignRequestDTO;
