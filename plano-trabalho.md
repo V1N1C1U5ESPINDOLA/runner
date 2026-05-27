@@ -401,11 +401,11 @@ Registrar isso como comentário no topo dos arquivos de integração ou em um `C
 #### Documentação técnica e revisão de qualidade
 
 **Critérios de aceitação:**
-- [ ] Javadoc nos métodos públicos principais
-- [ ] README com exemplos de uso via linha de comando e via HTTP
-- [ ] Guia de setup do SoftHSM2 para desenvolvimento e testes
-- [ ] Cobertura de testes adequada (unitários + integração)
-- [ ] Código limpo: sem TODOs pendentes, tratamento de exceções adequado
+- [x] Javadoc nos métodos públicos principais
+- [x] README com exemplos de uso via linha de comando e via HTTP
+- [x] Guia de setup do SoftHSM2 para desenvolvimento e testes
+- [x] Cobertura de testes adequada (unitários + integração)
+- [x] Código limpo: sem TODOs pendentes, tratamento de exceções adequado
 
 ---
 

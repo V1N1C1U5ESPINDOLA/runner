@@ -7,4 +7,4 @@ import org.junit.platform.suite.api.*;
 @SelectClasspathResource("features")
 @ConfigurationParameter(key = "cucumber.plugin", value = "pretty")
 @ConfigurationParameter(key = "cucumber.glue", value = "br.org.ao.depress.assinador")
-public class CucumberRunner {}
+public class CucumberRunnerTest {}

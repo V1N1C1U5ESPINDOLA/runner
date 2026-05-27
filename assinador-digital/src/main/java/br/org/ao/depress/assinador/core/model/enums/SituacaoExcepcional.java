@@ -3,6 +3,22 @@ package br.org.ao.depress.assinador.core.model.enums;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Códigos de situação excepcional do CodeSystem
+ * {@code situacao-excepcional-assinatura} da SES-GO.
+ *
+ * <p>Cada constante representa uma situação prevista na especificação FHIR de segurança
+ * da SES-GO e carrega os três atributos necessários para montar o {@code issue} de um
+ * {@code OperationOutcome}: o código do CodeSystem ({@code code}), a severidade FHIR
+ * ({@code severity}) e o texto de exibição ({@code display}).
+ *
+ * <p>Utilizado por {@link br.org.ao.depress.assinador.core.exception.AssinadorException}
+ * para tipificar erros e por
+ * {@link br.org.ao.depress.assinador.core.model.factory.OperationOutcomeFactory}
+ * para construir as respostas estruturadas.
+ *
+ * @see <a href="https://fhir.saude.go.gov.br/r4/seguranca">Guia de Implementação SES-GO</a>
+ */
 @RequiredArgsConstructor
 @Getter
 public enum SituacaoExcepcional {
