@@ -72,4 +72,4 @@ make build-all
 
 ## Contrato com assinador.jar
 
-A comunicação entre este CLI e o `assinador.jar` está definida em [`CONTRATO.md`](../CONTRATO.md) na raiz do repositório.
+A comunicação entre este CLI e o `assinador.jar` está definida em [`CONTRATO.md`](../docs/CONTRATO.md) na raiz do repositório.
