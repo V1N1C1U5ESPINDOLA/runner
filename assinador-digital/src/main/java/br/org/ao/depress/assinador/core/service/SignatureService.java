@@ -23,6 +23,28 @@ import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.List;
 
+/**
+ * Serviço responsável pela simulação de operações de assinatura digital no padrão FHIR da SES-GO.
+ *
+ * <p>Implementa dois fluxos principais:
+ * <ul>
+ *   <li><b>Criação:</b> valida os parâmetros de entrada e retorna um recurso {@code Signature} FHIR
+ *       simulado, com estrutura conforme o perfil
+ *       <a href="https://fhir.saude.go.gov.br/r4/seguranca">Assinatura digital avançada da SES-GO</a>.</li>
+ *   <li><b>Validação:</b> verifica a estrutura mínima dos arquivos recebidos e retorna um
+ *       {@code OperationOutcome} FHIR indicando sucesso ou o erro encontrado.</li>
+ * </ul>
+ *
+ * <p><b>Sobre a simulação:</b> a assinatura criptográfica real está fora do escopo deste componente.
+ * O campo {@code data} do {@code Signature} retornado contém um JWS JSON Serialization (RFC 7515 §3.2)
+ * estruturalmente correto, mas com valores simulados. O CPF do signatário é extraído do certificado
+ * no dispositivo PKCS#11 via {@link Pkcs11Service} quando disponível; caso contrário, um valor fixo
+ * simulado é usado como fallback.
+ *
+ * <p>Erros de validação são lançados como {@link AssinadorException} com o código correspondente
+ * do CodeSystem {@code situacao-excepcional-assinatura} da SES-GO, permitindo tratamento uniforme
+ * tanto no modo CLI quanto no modo servidor HTTP.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -37,7 +59,32 @@ public class SignatureService {
             "https://fhir.saude.go.gov.br/r4/seguranca/ImplementationGuide/br.go.ses.seguranca|0.1.2";
     private static final String RESOURCE_TYPE_KEY = "resourceType";
 
-    public SignatureDTO executarAssinatura(File bundleFile, File provenanceFile, String pin) throws IOException, NoSuchAlgorithmException {
+    /**
+     * Valida os parâmetros de entrada e retorna uma assinatura digital simulada no formato FHIR.
+     *
+     * <p>A ordem de validação é:
+     * <ol>
+     *   <li>PIN — formato numérico, 4 a 8 dígitos</li>
+     *   <li>Bundle — existência, JSON válido, {@code resourceType: "Bundle"}, ao menos uma
+     *       {@code entry}, e {@code fullUrl} de cada entrada no formato {@code urn:uuid:<UUID>}</li>
+     *   <li>Provenance — existência, JSON válido, {@code resourceType: "Provenance"}, campo
+     *       {@code recorded} presente em ISO-8601 e dentro da janela de ±5 minutos</li>
+     * </ol>
+     *
+     * <p>O CPF do signatário no {@code Signature} retornado é extraído do certificado no dispositivo
+     * PKCS#11 quando disponível. Se o dispositivo não estiver acessível, o valor fixo
+     * {@code "00000000000"} é usado e um aviso é registrado em stderr.
+     *
+     * @param bundleFile     arquivo JSON contendo o recurso FHIR {@code Bundle} a ser assinado
+     * @param provenanceFile arquivo JSON contendo o recurso FHIR {@code Provenance} do documento
+     * @param pin            PIN numérico do dispositivo PKCS#11 (4 a 8 dígitos)
+     * @return {@link SignatureDTO} com a assinatura simulada em conformidade com o perfil SES-GO
+     * @throws AssinadorException       se qualquer parâmetro for inválido, com o código de erro correspondente
+     * @throws IOException              se ocorrer erro de leitura dos arquivos
+     * @throws NoSuchAlgorithmException se o algoritmo SHA-256 não estiver disponível na JVM
+     */
+    public SignatureDTO executarAssinatura(File bundleFile, File provenanceFile, String pin)
+            throws IOException, NoSuchAlgorithmException {
         validarPin(pin);
         validarBundle(bundleFile);
         validarProvenance(provenanceFile);
@@ -45,6 +92,22 @@ public class SignatureService {
         return gerarMockSignature(bundleFile);
     }
 
+    /**
+     * Valida a estrutura dos arquivos recebidos e retorna o resultado da validação simulada.
+     *
+     * <p>A validação é estrutural — verifica se o {@code Signature} é um JSON válido com
+     * {@code resourceType: "Signature"} e campo {@code data} presente, e se o Bundle existe
+     * e é um JSON válido. Não há verificação criptográfica da assinatura.
+     *
+     * <p>Para entradas bem formadas, sempre retorna {@code VALIDATION.SUCCESS}. Entradas
+     * inválidas lançam {@link AssinadorException} com o código de erro correspondente.
+     *
+     * @param signatureFile arquivo JSON contendo o recurso FHIR {@code Signature} a ser validado
+     * @param bundleFile    arquivo JSON contendo o recurso FHIR {@code Bundle} original
+     * @return {@link OperationOutcomeDTO} com {@code severity: "information"} e
+     *         código {@code VALIDATION.SUCCESS} em caso de sucesso
+     * @throws AssinadorException se qualquer arquivo estiver ausente ou malformado
+     */
     public OperationOutcomeDTO validarAssinatura(File signatureFile, File bundleFile) {
         validarArquivoSignature(signatureFile);
         validarArquivoBundle(bundleFile);
@@ -214,7 +277,29 @@ public class SignatureService {
         }
     }
 
-    private SignatureDTO gerarMockSignature(File bundleFile) throws IOException, NoSuchAlgorithmException {
+    /**
+     * Gera um recurso FHIR {@code Signature} simulado em conformidade com o perfil
+     * Assinatura digital avançada da SES-GO.
+     *
+     * <p>O campo {@code data} contém um JWS JSON Serialization (RFC 7515 §3.2) codificado
+     * em base64 padrão. Internamente, o JWS é composto por:
+     * <ul>
+     *   <li>{@code payload} — hash SHA-256 real do conteúdo do Bundle, em base64url</li>
+     *   <li>{@code signatures[0].protected} — protected header com {@code alg}, {@code x5c},
+     *       {@code sigPId} (política SES-GO) e {@code iat}, em base64url</li>
+     *   <li>{@code signatures[0].header} — cabeçalho não protegido com {@code rRefs} vazios</li>
+     *   <li>{@code signatures[0].signature} — valor simulado fixo, em base64url</li>
+     * </ul>
+     *
+     * <p>O campo {@code when} do {@code Signature} e o campo {@code iat} do protected header
+     * são gerados a partir do mesmo {@link Instant}, garantindo consistência entre os dois.
+     *
+     * @param bundleFile arquivo Bundle cujo conteúdo será usado para calcular o {@code payload}
+     * @return {@link SignatureDTO} pronto para serialização
+     * @throws IOException              se ocorrer erro de leitura do Bundle
+     * @throws NoSuchAlgorithmException se SHA-256 não estiver disponível
+     */
+    SignatureDTO gerarMockSignature(File bundleFile) throws IOException, NoSuchAlgorithmException {
         Instant agora = Instant.now();
         long iat = agora.getEpochSecond();
         String when = OffsetDateTime.ofInstant(agora, ZoneOffset.UTC).toString();
