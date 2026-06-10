@@ -16,13 +16,13 @@
 
 ## Rastreabilidade Épicos → Histórias
 
-| Épico                                                                                                         | Histórias derivadas                                                             |
-|---------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| Épico | Histórias derivadas |
+|-------|---------------------|
 | [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-01) | US-01.1, US-01.2, US-01.3, US-01.4, US-01.5, US-01.6, US-01.7, US-01.8, US-01.9 |
-| [US-02](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-02) | US-02.1, US-02.2, US-02.3, US-02.4, US-02.5                                     |
-| [US-03](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-03) | US-03.1, US-03.2, US-03.3, US-03.4                                              |
-| [US-04](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-04) | US-04.1                                                                         |
-| [US-05](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-05) | US-05.1, US-05.2, US-05.3                                                       |
+| [US-02](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-02) | US-02.1, US-02.2, US-02.3, US-02.4, US-02.5 |
+| [US-03](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-03) | US-03.1, US-03.2, US-03.3, US-03.4 |
+| [US-04](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-04) | US-04.1 |
+| [US-05](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-05) | US-05.1, US-05.2, US-05.3 |
 
 ---
 
@@ -51,7 +51,7 @@
 
 #### US-01.1 — Estrutura base do CLI
 
-> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-01-invocar-assinadorjar-via-cli)
+> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-01)
 
 **Critérios de aceitação:**
 - [x] Projeto Go inicializado com `go mod init`
@@ -62,7 +62,7 @@
 
 #### US-01.2 — Parsing de comandos e parâmetros no CLI
 
-> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-01-invocar-assinadorjar-via-cli)
+> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-01)
 
 **Critérios de aceitação:**
 - [x] CLI aceita o comando `assinar` com os parâmetros: `--pin`, `--bundle`, `--provenance`
@@ -77,7 +77,7 @@
 
 #### US-02.1 — Mock da resposta de assinatura no formato FHIR correto
 
-> Épico: [US-02](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-02-simular-assinatura-digital-com-valida%C3%A7%C3%A3o-de-par%C3%A2metros)
+> Épico: [US-02](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-02)
 
 **Critérios de aceitação:**
 - [x] `gerarMockSignature()` retorna `Signature` FHIR com todos os campos obrigatórios conforme spec SES-GO
@@ -89,7 +89,7 @@
 
 #### US-02.2 — Validação completa de parâmetros de criação de assinatura
 
-> Épico: [US-02](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-02-simular-assinatura-digital-com-valida%C3%A7%C3%A3o-de-par%C3%A2metros)
+> Épico: [US-02](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-02)
 
 **Critérios de aceitação:**
 - [x] Arquivo Bundle existe, é um JSON válido com `resourceType: "Bundle"` e pelo menos uma entry
@@ -102,7 +102,7 @@
 
 #### US-02.3 — Simulação e validação de parâmetros de validação de assinatura
 
-> Épico: [US-02](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-02-simular-assinatura-digital-com-valida%C3%A7%C3%A3o-de-par%C3%A2metros)
+> Épico: [US-02](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-02)
 
 **Critérios de aceitação:**
 - [x] Arquivo Signature existe e é um JSON com `resourceType: "Signature"` e campo `data` presente
@@ -132,7 +132,7 @@
 
 #### US-01.3 — Invocação local do assinador.jar
 
-> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-02-simular-assinatura-digital-com-valida%C3%A7%C3%A3o-de-par%C3%A2metros)
+> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-01)
 
 **Critérios de aceitação:**
 - [ ] CLI localiza o `java` disponível no PATH (ou provisionado — ver Sprint 3)
@@ -143,7 +143,7 @@
 
 #### US-01.4 — Exibição legível de resultados
 
-> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-02-simular-assinatura-digital-com-valida%C3%A7%C3%A3o-de-par%C3%A2metros)
+> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-01)
 
 **Critérios de aceitação:**
 - [ ] Resultado de criação de assinatura é formatado de forma legível (JSON indentado ou resumo)
@@ -175,7 +175,7 @@
 
 #### US-04.1 — Detecção e download automático do JDK
 
-> Épico: [US-04](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-04-provisionar-jdk-automaticamente)
+> Épico: [US-04](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-04)
 
 **Critérios de aceitação:**
 - [ ] CLI detecta se o JDK está presente na versão exigida (PATH e/ou `~/.hubsaude/jdk/`)
@@ -190,7 +190,7 @@
 
 #### US-02.4 — Endpoints HTTP do assinador.jar (modo servidor)
 
-> Épico: [US-02](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-02-simular-assinatura-digital-com-valida%C3%A7%C3%A3o-de-par%C3%A2metros)
+> Épico: [US-02](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-02)
 
 **Critérios de aceitação:**
 - [x] `SignatureController` implementado com `POST /sign` e `POST /validate`
@@ -212,7 +212,7 @@
 
 #### US-01.5 — Iniciar assinador.jar no modo servidor
 
-> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-01-invocar-assinadorjar-via-cli)
+> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-01)
 
 **Critérios de aceitação:**
 - [ ] CLI inicia o assinador.jar como processo em background na porta padrão
@@ -222,7 +222,7 @@
 
 #### US-01.6 — Invocar assinador.jar via HTTP
 
-> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-01-invocar-assinadorjar-via-cli)
+> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-01)
 
 **Critérios de aceitação:**
 - [ ] CLI envia requisições HTTP para `/sign` e `/validate`
@@ -232,7 +232,7 @@
 
 #### US-01.7 — Detectar instância do assinador.jar em execução
 
-> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-01-invocar-assinadorjar-via-cli)
+> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-01)
 
 **Critérios de aceitação:**
 - [ ] CLI consulta `~/.hubsaude/assinador.pid` para verificar processo registrado
@@ -242,7 +242,7 @@
 
 #### US-01.8 — Interromper execução do assinador.jar
 
-> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-01-invocar-assinadorjar-via-cli)
+> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-01)
 
 **Critérios de aceitação:**
 - [ ] Comando `assinatura stop` encerra o assinador.jar na porta padrão
@@ -252,7 +252,7 @@
 
 #### US-01.9 — Agendar interrupção por inatividade
 
-> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-01-invocar-assinadorjar-via-cli)
+> Épico: [US-01](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-01)
 
 **Critérios de aceitação:**
 - [ ] Parâmetro `--timeout <minutos>` define tempo máximo de inatividade ao iniciar o servidor
@@ -265,7 +265,7 @@
 
 #### US-02.5 — Integração com dispositivo criptográfico via PKCS#11 (SoftHSM2)
 
-> Épico: [US-02](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-02-simular-assinatura-digital-com-valida%C3%A7%C3%A3o-de-par%C3%A2metros)
+> Épico: [US-02](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-02)
 
 **Critérios de aceitação:**
 - [x] Integração com PKCS#11 via `SunPKCS11` provider do Java
@@ -288,7 +288,7 @@
 
 #### US-03.3 — Estrutura base do CLI `simulador`
 
-> Épico: [US-03](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-03-gerenciar-ciclo-de-vida-do-simulador-do-hubsa%C3%BAde)
+> Épico: [US-03](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-03)
 
 **Critérios de aceitação:**
 - [ ] Projeto CLI `simulador` segue a mesma estrutura do CLI `assinatura`
@@ -297,7 +297,7 @@
 
 #### US-03.4 — Download automático do simulador.jar e JRE
 
-> Épico: [US-03](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-03-gerenciar-ciclo-de-vida-do-simulador-do-hubsa%C3%BAde)
+> Épico: [US-03](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-03)
 
 **Critérios de aceitação:**
 - [ ] CLI busca `release.json` via URL fixa (`https://raw.githubusercontent.com/{owner}/{repo}/main/release.json`) para identificar a versão mais recente do simulador.jar
@@ -310,7 +310,7 @@
 
 #### US-03.1 — Iniciar o Simulador via CLI
 
-> Épico: [US-03](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-03-gerenciar-ciclo-de-vida-do-simulador-do-hubsa%C3%BAde)
+> Épico: [US-03](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-03)
 
 **Critérios de aceitação:**
 - [ ] Comando `simulador start` inicia o simulador.jar
@@ -320,7 +320,7 @@
 
 #### US-03.2 — Parar e monitorar o Simulador
 
-> Épico: [US-03](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-03-gerenciar-ciclo-de-vida-do-simulador-do-hubsa%C3%BAde)
+> Épico: [US-03](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-03)
 
 **Critérios de aceitação:**
 - [ ] Comando `simulador stop` encerra o Simulador via endpoint `/shutdown`
@@ -343,7 +343,7 @@
 
 ---
 
-## Sprint 6 — CI/CD, releases e assinatura de artefatos (26/05 – 02/06)
+## Sprint 6 — CI/CD, releases e assinatura de artefatos (09/06 – 15/06)
 
 **Objetivo:** Pipeline completo de entrega contínua. Build multiplataforma automático, publicação no GitHub Releases com versionamento SemVer, checksums SHA256 e assinatura via Cosign.
 
@@ -354,6 +354,16 @@
 ---
 
 ### Tarefa conjunta
+
+#### Revisão dos critérios de aceitação
+
+> Referência: [criterios.md](https://github.com/kyriosdata/runner/blob/802d241630ab3eac231834bc6c8afdd948c56856/docs/criterios.md)
+
+**Critérios de aceitação:**
+- [ ] Todos os itens de A a I revisados e pendências identificadas
+- [ ] Pendências do assinador.jar corrigidas (ADRs, cobertura JaCoCo, encoding UTF-8)
+- [ ] Pendências do CLI em Go corrigidas
+- [ ] Itens de CI obrigatório (lint + build + testes em Windows e Linux) cobertos pelo workflow
 
 #### US-05.1 — GitHub Actions: build e testes contínuos
 
@@ -367,7 +377,7 @@
 
 #### US-05.2 — Publicação automática de releases com SemVer
 
-> Épico: [US-05](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-05-disponibilizar-bin%C3%A1rios-multiplataforma)
+> Épico: [US-05](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-05)
 
 **Critérios de aceitação:**
 - [ ] Tags de versão seguem SemVer (ex.: `v1.0.0`)
@@ -377,7 +387,7 @@
 
 #### US-05.3 — Checksums SHA256 e assinatura com Cosign
 
-> Épico: [US-05](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/especificacao.md#us-05-disponibilizar-bin%C3%A1rios-multiplataforma)
+> Épico: [US-05](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-05)
 
 **Critérios de aceitação:**
 - [ ] Cada release inclui arquivo de checksums SHA256 para todos os artefatos
@@ -388,7 +398,7 @@
 
 ---
 
-## Sprint 7 — Documentação, testes de aceitação e entrega final (02/06 – 09/06)
+## Sprint 7 — Documentação, testes de aceitação e entrega final (15/06 – 22/06)
 
 **Objetivo:** Sistema Runner completo, documentado, testado e com todos os critérios de aceitação verificados. Entrega da versão `v1.0.0`.
 
@@ -441,5 +451,5 @@
 | 3      | 05/05 – 12/05 | JDK + Modo HTTP           | US-04.1                 | US-02.4 (HTTP)             | —                         |
 | 4      | 12/05 – 19/05 | Modo servidor             | US-01.5–US-01.9         | US-02.5 (PKCS#11/SoftHSM2) | —                         |
 | 5      | 19/05 – 26/05 | CLI simulador             | US-03.1–US-03.4         | Docs + qualidade           | —                         |
-| 6      | 26/05 – 02/06 | CI/CD e releases          | —                       | —                          | US-05.1, US-05.2, US-05.3 |
-| 7      | 02/06 – 09/06 | Entrega final             | Docs de usuário         | Testes de aceitação        | Revisão + v1.0.0          |
+| 6      | 09/06 – 15/06 | CI/CD e releases          | —                       | —                          | US-05.1, US-05.2, US-05.3 |
+| 7      | 15/06 – 22/06 | Entrega final             | Docs de usuário         | Testes de aceitação        | Revisão + v1.0.0          |
