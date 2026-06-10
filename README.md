@@ -54,4 +54,4 @@ Este projeto implementa a especificação disponível em [kyriosdata/runner](htt
 
 ## Equipe
 
-Projeto desenvolvido por \[nomes\] sob orientação do prof. Fábio Nogueira de Lucena (UFG).
+Projeto desenvolvido por Carlos Henrique Alves e Vinícius Espíndola sob orientação do prof. Fábio Nogueira de Lucena (UFG).
