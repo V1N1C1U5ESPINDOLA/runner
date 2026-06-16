@@ -38,6 +38,22 @@ public class OperationOutcomeFactory {
     }
 
     /**
+     * Cria um {@code OperationOutcome} de erro para falhas inesperadas do sistema
+     * (ex.: I/O, algoritmo indisponível) que não correspondem a erros de validação do usuário.
+     *
+     * <p>Não usa o CodeSystem da SES-GO pois essas situações não são previstas no perfil
+     * de segurança — são erros de infraestrutura, não de negócio.
+     *
+     * @param diagnostics mensagem descritiva da causa do erro
+     * @return {@link OperationOutcomeDTO} com {@code severity: "error"} e {@code code: "exception"}
+     */
+    public static OperationOutcomeDTO systemError(String diagnostics) {
+        DetailsDTO details = new DetailsDTO(List.of(), "Erro interno do sistema");
+        IssueDTO issue = new IssueDTO("error", "exception", details, diagnostics);
+        return new OperationOutcomeDTO("OperationOutcome", List.of(issue));
+    }
+
+    /**
      * Cria um {@code OperationOutcome} de sucesso para o fluxo de validação de assinatura.
      *
      * @return {@link OperationOutcomeDTO} com {@code severity: "information"} e
