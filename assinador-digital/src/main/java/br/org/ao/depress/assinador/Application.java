@@ -11,6 +11,8 @@ import picocli.CommandLine;
 import picocli.CommandLine.IFactory;
 import picocli.spring.PicocliSpringFactory;
 
+import java.util.Arrays;
+
 @SpringBootApplication
 public class Application implements CommandLineRunner, ExitCodeGenerator {
 
@@ -24,9 +26,18 @@ public class Application implements CommandLineRunner, ExitCodeGenerator {
     }
 
     public static void main(String[] args) {
+        int javaVersion = Runtime.version().feature();
+        if (javaVersion < 21) {
+            System.err.printf(
+                    "ERRO: Java 21 ou superior é necessário. Versão detectada: %d.%n" +
+                    "Baixe o JDK em: https://adoptium.net/%n", javaVersion);
+            System.exit(1);
+        }
+
         SpringApplication app = new SpringApplication(Application.class);
 
-        boolean modoCliLocal = args.length > 0 && (args[0].equals("assinar") || args[0].equals("validar"));
+        boolean modoCliLocal = Arrays.stream(args)
+                .anyMatch(arg -> arg.equals("assinar") || arg.equals("validar"));
 
         if (modoCliLocal) {
             app.setAdditionalProfiles("cli");
