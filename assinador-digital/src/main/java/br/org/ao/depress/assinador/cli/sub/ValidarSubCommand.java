@@ -1,10 +1,12 @@
 package br.org.ao.depress.assinador.cli.sub;
 
+import br.org.ao.depress.assinador.cli.AssinadorCommand;
 import br.org.ao.depress.assinador.core.exception.AssinadorException;
 import br.org.ao.depress.assinador.core.model.dto.OperationOutcomeDTO;
 import br.org.ao.depress.assinador.core.model.factory.OperationOutcomeFactory;
 import br.org.ao.depress.assinador.core.service.SignatureService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -14,12 +16,23 @@ import java.io.File;
 import java.util.concurrent.Callable;
 
 @Component
-@Command(name = "validar", description = "Valida uma assinatura digital padrão FHIR")
+@Command(
+        name = "validar",
+        description = "Valida uma assinatura digital no padrão FHIR da SES-GO.",
+        footer = {
+                "",
+                "Exemplo:",
+                "  java -jar assinador.jar validar \\",
+                "    --signature signature.json \\",
+                "    --bundle bundle.json"
+        }
+)
 @RequiredArgsConstructor
 public class ValidarSubCommand implements Callable<Integer> {
 
     private final SignatureService signatureService;
     private final ObjectMapper objectMapper;
+    private final AssinadorCommand parent;
 
     @Option(names = {"-s", "--signature"}, description = "Caminho do arquivo JSON contendo o recurso Signature", required = true)
     private File signatureFile;
@@ -29,6 +42,7 @@ public class ValidarSubCommand implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        parent.aplicarModoVerbose();
         try {
             OperationOutcomeDTO resultado = signatureService.validarAssinatura(signatureFile, bundleFile);
             System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(resultado));
