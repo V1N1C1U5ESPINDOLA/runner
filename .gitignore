@@ -1,8 +1,13 @@
-Assinador Digital/HELP.md
+# Java / Maven
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+# Go binários e artefatos de build
+assinatura/assinatura
+assinatura/assinatura.exe
+assinatura/dist/
 
 ### STS ###
 .apt_generated

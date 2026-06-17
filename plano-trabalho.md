@@ -360,41 +360,41 @@
 > Referência: [criterios.md](https://github.com/kyriosdata/runner/blob/802d241630ab3eac231834bc6c8afdd948c56856/docs/criterios.md)
 
 **Critérios de aceitação:**
-- [ ] Todos os itens de A a I revisados e pendências identificadas
-- [ ] Pendências do assinador.jar corrigidas (ADRs, cobertura JaCoCo, encoding UTF-8)
-- [ ] Pendências do CLI em Go corrigidas
-- [ ] Itens de CI obrigatório (lint + build + testes em Windows e Linux) cobertos pelo workflow
+- [x] Todos os itens de A a I revisados e pendências identificadas
+- [x] Pendências do assinador.jar corrigidas (ADRs, cobertura JaCoCo, encoding UTF-8)
+- [x] Pendências do CLI em Go corrigidas (assinatura.exe removido do versionamento, .gitignore atualizado)
+- [x] Itens de CI obrigatório (lint + build + testes em Windows e Linux) cobertos pelo workflow
 
 #### US-05.1 — GitHub Actions: build e testes contínuos
 
 > Épico: [US-05](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-05)
 
 **Critérios de aceitação:**
-- [ ] Workflow de CI executa a cada push na branch principal
-- [ ] Build do assinador.jar (`./mvnw package`) executado e validado
-- [ ] Cross-compilation dos binários Go para `windows/amd64`, `linux/amd64` e `darwin/amd64`
-- [ ] Testes executados em Linux e Windows no CI
+- [x] Workflow de CI executa a cada push na branch principal
+- [x] Build do assinador.jar (`./mvnw verify`) executado e validado
+- [x] Cross-compilation dos binários Go para `windows/amd64`, `linux/amd64` e `darwin/amd64`
+- [x] Testes executados em Linux e Windows no CI
 
 #### US-05.2 — Publicação automática de releases com SemVer
 
 > Épico: [US-05](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-05)
 
 **Critérios de aceitação:**
-- [ ] Tags de versão seguem SemVer (ex.: `v1.0.0`)
-- [ ] Workflow de release publicado automaticamente no GitHub Releases ao criar tag
-- [ ] Binários dos CLIs (`assinatura` e `simulador`) nomeados por plataforma (ex.: `assinatura-1.0.0-linux-amd64`)
-- [ ] `assinador.jar` incluído na release
+- [x] Tags de versão seguem SemVer (ex.: `v1.0.0`)
+- [x] Workflow de release publicado automaticamente no GitHub Releases ao criar tag
+- [x] Binários dos CLIs (`assinatura`) nomeados por plataforma (ex.: `assinatura-v1.0.0-linux-amd64`)
+- [x] `assinador.jar` incluído na release
 
 #### US-05.3 — Checksums SHA256 e assinatura com Cosign
 
 > Épico: [US-05](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-05)
 
 **Critérios de aceitação:**
-- [ ] Cada release inclui arquivo de checksums SHA256 para todos os artefatos
-- [ ] Artefatos assinados com Cosign (identidade OIDC + transparency log Sigstore)
-- [ ] Cada artefato acompanhado de `.sig` e `.pem`
-- [ ] Processo de assinatura automatizado no pipeline CI/CD
-- [ ] Documentação de verificação com `cosign verify-blob` presente no README
+- [x] Cada release inclui arquivo de checksums SHA256 para todos os artefatos
+- [x] Artefatos assinados com Cosign (identidade OIDC + transparency log Sigstore)
+- [x] Cada artefato acompanhado de `.sig` e `.pem`
+- [x] Processo de assinatura automatizado no pipeline CI/CD
+- [x] Documentação de verificação com `cosign verify-blob` presente no README
 
 ---
 

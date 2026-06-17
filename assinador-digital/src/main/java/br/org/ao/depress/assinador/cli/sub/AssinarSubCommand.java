@@ -1,11 +1,13 @@
 package br.org.ao.depress.assinador.cli.sub;
 
+import br.org.ao.depress.assinador.cli.AssinadorCommand;
 import br.org.ao.depress.assinador.core.exception.AssinadorException;
 import br.org.ao.depress.assinador.core.model.dto.SignatureDTO;
 import br.org.ao.depress.assinador.core.model.factory.OperationOutcomeFactory;
 import br.org.ao.depress.assinador.core.service.SignatureService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -15,13 +17,25 @@ import java.io.File;
 import java.util.concurrent.Callable;
 
 @Component
-@Command(name = "assinar", description = "Gera uma assinatura simulada padrão FHIR")
+@Command(
+        name = "assinar",
+        description = "Gera uma assinatura simulada no padrão FHIR da SES-GO.",
+        footer = {
+                "",
+                "Exemplo:",
+                "  java -jar assinador.jar assinar \\",
+                "    --bundle bundle.json \\",
+                "    --provenance provenance.json \\",
+                "    --pin 1234"
+        }
+)
 @Slf4j
 @RequiredArgsConstructor
 public class AssinarSubCommand implements Callable<Integer> {
 
     private final SignatureService signatureService;
     private final ObjectMapper objectMapper;
+    private final AssinadorCommand parent;
 
     @Option(names = {"-b", "--bundle"}, description = "Caminho do arquivo JSON Bundle", required = true)
     private File bundleFile;
@@ -34,13 +48,14 @@ public class AssinarSubCommand implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        parent.aplicarModoVerbose();
         try {
             SignatureDTO resultado = signatureService.executarAssinatura(bundleFile, provenanceFile, pin);
             System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(resultado));
             return 0;
         } catch (AssinadorException e) {
             try {
-                System.err.println(objectMapper.writerWithDefaultPrettyPrinter()
+                System.out.println(objectMapper.writerWithDefaultPrettyPrinter()
                         .writeValueAsString(OperationOutcomeFactory.fromException(e)));
             } catch (Exception ex) {
                 System.err.println("ERRO: " + e.getDiagnostics());
