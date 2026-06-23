@@ -114,6 +114,65 @@ public class IntegracaoCliSteps {
         signatureFile = new File("signature_inexistente_integracao.json");
     }
 
+    @Dado("que existe um arquivo Signature válido para integração")
+    public void signatureValidoParaIntegracao() throws Exception {
+        signatureFile = File.createTempFile("integ_signature_valido", ".json");
+        signatureFile.deleteOnExit();
+        try (FileWriter fw = new FileWriter(signatureFile)) {
+            fw.write("""
+                    {
+                      "resourceType": "Signature",
+                      "data": "dGVzdGU="
+                    }
+                    """);
+        }
+    }
+
+    @Dado("que existe um arquivo Signature com JSON inválido para integração")
+    public void signatureJsonInvalidoParaIntegracao() throws Exception {
+        signatureFile = File.createTempFile("integ_signature_invalido", ".json");
+        signatureFile.deleteOnExit();
+        try (FileWriter fw = new FileWriter(signatureFile)) {
+            fw.write("{ isso não é json válido }");
+        }
+    }
+
+    @Dado("que existe um arquivo Signature com resourceType {string} para integração")
+    public void signatureComResourceTypeParaIntegracao(String resourceType) throws Exception {
+        signatureFile = File.createTempFile("integ_signature_rt", ".json");
+        signatureFile.deleteOnExit();
+        try (FileWriter fw = new FileWriter(signatureFile)) {
+            fw.write("""
+                    {
+                      "resourceType": "%s",
+                      "data": "dGVzdGU="
+                    }
+                    """.formatted(resourceType));
+        }
+    }
+
+    @Dado("que existe um arquivo Signature sem o campo data para integração")
+    public void signatureSemCampoDataParaIntegracao() throws Exception {
+        signatureFile = File.createTempFile("integ_signature_semdata", ".json");
+        signatureFile.deleteOnExit();
+        try (FileWriter fw = new FileWriter(signatureFile)) {
+            fw.write("""
+                    {
+                      "resourceType": "Signature"
+                    }
+                    """);
+        }
+    }
+
+    @Dado("que existe um arquivo Bundle com JSON inválido para integração")
+    public void bundleJsonInvalidoParaIntegracao() throws Exception {
+        bundleFile = File.createTempFile("integ_bundle_invalido", ".json");
+        bundleFile.deleteOnExit();
+        try (FileWriter fw = new FileWriter(bundleFile)) {
+            fw.write("{ isso não é json válido }");
+        }
+    }
+
     @Quando("o usuário executa o processo assinar com PIN {string}")
     public void executaProcessoAssinar(String pin) throws Exception {
         ProcessResult resultado = executarProcesso(

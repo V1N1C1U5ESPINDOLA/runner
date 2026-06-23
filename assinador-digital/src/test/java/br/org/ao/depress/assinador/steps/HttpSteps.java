@@ -102,6 +102,95 @@ public class HttpSteps {
         signatureFile = new File("signature_inexistente_http.json");
     }
 
+    @Dado("que existe um arquivo Provenance com recorded de {int} minutos atrás para HTTP")
+    public void provenanceForaDaJanelaParaHttp(int minutos) throws Exception {
+        provenanceFile = File.createTempFile("http_provenance_old", ".json");
+        provenanceFile.deleteOnExit();
+        String recorded = OffsetDateTime.now(ZoneOffset.UTC).minusMinutes(minutos).toString();
+        try (FileWriter fw = new FileWriter(provenanceFile)) {
+            fw.write("""
+                {
+                  "resourceType": "Provenance",
+                  "recorded": "%s"
+                }
+                """.formatted(recorded));
+        }
+    }
+
+    @Dado("que existe um arquivo Bundle com UUID inválido para HTTP")
+    public void bundleUuidInvalidoParaHttp() throws Exception {
+        bundleFile = File.createTempFile("http_bundle_uuid", ".json");
+        bundleFile.deleteOnExit();
+        try (FileWriter fw = new FileWriter(bundleFile)) {
+            fw.write("""
+                {
+                  "resourceType": "Bundle",
+                  "type": "collection",
+                  "entry": [
+                    {
+                      "fullUrl": "nao-e-um-uuid-valido",
+                      "resource": { "resourceType": "Patient" }
+                    }
+                  ]
+                }
+                """);
+        }
+    }
+
+    @Dado("que existe um arquivo Provenance com JSON inválido para HTTP")
+    public void provenanceJsonInvalidoParaHttp() throws Exception {
+        provenanceFile = File.createTempFile("http_provenance_invalido", ".json");
+        provenanceFile.deleteOnExit();
+        try (FileWriter fw = new FileWriter(provenanceFile)) {
+            fw.write("{ isso não é json válido }");
+        }
+    }
+
+    @Dado("que existe um arquivo Signature com resourceType {string} para HTTP")
+    public void signatureComResourceTypeParaHttp(String resourceType) throws Exception {
+        signatureFile = File.createTempFile("http_signature_rt", ".json");
+        signatureFile.deleteOnExit();
+        try (FileWriter fw = new FileWriter(signatureFile)) {
+            fw.write("""
+                {
+                  "resourceType": "%s",
+                  "data": "dGVzdGU="
+                }
+                """.formatted(resourceType));
+        }
+    }
+
+    @Dado("que existe um arquivo Signature sem o campo data para HTTP")
+    public void signatureSemCampoDataParaHttp() throws Exception {
+        signatureFile = File.createTempFile("http_signature_semdata", ".json");
+        signatureFile.deleteOnExit();
+        try (FileWriter fw = new FileWriter(signatureFile)) {
+            fw.write("""
+                {
+                  "resourceType": "Signature"
+                }
+                """);
+        }
+    }
+
+    @Dado("que existe um arquivo Signature com JSON inválido para HTTP")
+    public void signatureJsonInvalidoParaHttp() throws Exception {
+        signatureFile = File.createTempFile("http_signature_invalido", ".json");
+        signatureFile.deleteOnExit();
+        try (FileWriter fw = new FileWriter(signatureFile)) {
+            fw.write("{ isso não é json válido }");
+        }
+    }
+
+    @Dado("que existe um arquivo Bundle com JSON inválido para HTTP")
+    public void bundleJsonInvalidoParaHttp() throws Exception {
+        bundleFile = File.createTempFile("http_bundle_invalido", ".json");
+        bundleFile.deleteOnExit();
+        try (FileWriter fw = new FileWriter(bundleFile)) {
+            fw.write("{ isso não é json válido }");
+        }
+    }
+
     @Quando("o cliente envia POST para {string} com PIN {string}")
     public void clienteEnviaPostSign(String endpoint, String pin) throws Exception {
         String body = objectMapper.writeValueAsString(new java.util.HashMap<>() {{

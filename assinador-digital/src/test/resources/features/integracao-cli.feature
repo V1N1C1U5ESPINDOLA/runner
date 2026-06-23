@@ -53,6 +53,34 @@ Funcionalidade: Integração ponta-a-ponta via linha de comando
     Quando o usuário executa o processo validar
     Então o processo deve encerrar com código 1
 
+  Cenário: Validar com Signature com JSON malformado retorna código de saída 1
+    Dado que o jar do assinador está disponível
+    E que existe um arquivo Bundle válido para integração
+    E que existe um arquivo Signature com JSON inválido para integração
+    Quando o usuário executa o processo validar
+    Então o processo deve encerrar com código 1
+
+  Cenário: Validar com Signature com resourceType inválido retorna código de saída 1
+    Dado que o jar do assinador está disponível
+    E que existe um arquivo Bundle válido para integração
+    E que existe um arquivo Signature com resourceType "Patient" para integração
+    Quando o usuário executa o processo validar
+    Então o processo deve encerrar com código 1
+
+  Cenário: Validar com Signature sem campo data retorna código de saída 1
+    Dado que o jar do assinador está disponível
+    E que existe um arquivo Bundle válido para integração
+    E que existe um arquivo Signature sem o campo data para integração
+    Quando o usuário executa o processo validar
+    Então o processo deve encerrar com código 1
+
+  Cenário: Validar com Bundle com JSON malformado retorna código de saída 1
+    Dado que o jar do assinador está disponível
+    E que existe um arquivo Signature válido para integração
+    E que existe um arquivo Bundle com JSON inválido para integração
+    Quando o usuário executa o processo validar
+    Então o processo deve encerrar com código 1
+
   @pkcs11
   Cenário: Assinatura gerada contém CPF do token no campo who
     Dado que o SoftHSM2 está disponível
