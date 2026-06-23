@@ -423,9 +423,9 @@
 #### Testes de aceitação completos
 
 **Critérios de aceitação:**
-- [ ] Cenários de teste baseados nos critérios de aceitação de US-01 a US-05
-- [ ] Cobertura de todos os cenários de erro documentados na spec SES-GO
-- [ ] Relatório de cobertura de testes gerado
+- [x] Cenários de teste baseados nos critérios de aceitação de US-01 a US-05
+- [x] Cobertura de todos os cenários de erro documentados na spec SES-GO
+- [x] Relatório de cobertura de testes gerado
 
 ---
 
