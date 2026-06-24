@@ -12,6 +12,8 @@ var (
 	validarBundle    string
 )
 
+
+
 var validarCmd = &cobra.Command{
 	Use:   "validar",
 	Short: "Valida uma assinatura digital no padrão FHIR",
