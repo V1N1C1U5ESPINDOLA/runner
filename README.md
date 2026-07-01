@@ -48,9 +48,9 @@ Este projeto implementa a especificação disponível em [kyriosdata/runner](htt
 
 ## Contribuindo
 
-1. Abra uma issue descrevendo a mudança proposta
-2. Faça um fork e crie um branch a partir de `main`
-3. Submeta um PR vinculado à issue — o CI precisa estar verde para merge
+1. Abra uma issue descrevendo a mudança proposta.
+2. Faça um fork e crie um branch a partir de `main`.
+3. Submeta um PR vinculado à issue — o CI precisa estar verde para merge.
 
 ## Equipe
 
