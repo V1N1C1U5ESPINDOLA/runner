@@ -178,11 +178,11 @@
 > Épico: [US-04](https://github.com/kyriosdata/runner/blob/4d7d40fff32b3b50372e7fbe41fe713b2bbddb4c/contexto.md#us-04)
 
 **Critérios de aceitação:**
-- [ ] CLI detecta se o JDK está presente na versão exigida (PATH e/ou `~/.hubsaude/jdk/`)
-- [ ] CLI baixa o JDK compatível para a plataforma corrente quando ausente
-- [ ] JDK baixado é armazenado em `~/.hubsaude/jdk/` e usado nas invocações do assinador.jar
-- [ ] Download funciona nas três plataformas
-- [ ] Feedback exibido ao usuário durante o download
+- [ ] CLI detecta se o JDK está presente na versão exigida (PATH e/ou `~/.hubsaude/jdk/`);
+- [ ] CLI baixa o JDK compatível para a plataforma corrente quando ausente;
+- [ ] JDK baixado é armazenado em `~/.hubsaude/jdk/` e usado nas invocações do assinador.jar;
+- [ ] Download funciona nas três plataformas;
+- [ ] Feedback exibido ao usuário durante o download;
 
 ---
 
